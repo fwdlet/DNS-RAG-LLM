@@ -39,3 +39,6 @@ daemon.json
 
 # Processed data
 data/processed/
+
+# Local documents (not for upload)
+documents/
