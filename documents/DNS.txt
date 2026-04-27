@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "device_id": "13800138000",  // 设备标识（如手机号）
+    "collector_version": "1.0",  // 采集器版本
+    "timestamp": "2023-05-20T14:30:45.123Z"  // ISO 8601 格式
+  },
+  "network": {
+    "src_ip": "192.168.1.100",   // 源IP
+    "src_port": 54321,           // 源端口
+    "dst_ip": "8.8.8.8",         // DNS服务器IP
+    "dst_port": 53,              // DNS服务器端口
+    "protocol": "udp"            // 传输协议
+  },
+  "dns": {
+    "transaction_id": 0xabcd,    // DNS事务ID
+    "opcode": "QUERY",           // 操作码
+    "flags": {
+      "qr": true,                // 查询/响应标志
+      "aa": false,               // 权威应答
+      "tc": false,               // 截断标志
+      "rd": true,               // 递归期望
+      "ra": true                 // 递归可用
+    },
+    "rcode": "NOERROR",         // 响应码
+    "question": {
+      "name": "example.com",     // 查询域名
+      "type": "A",               // 查询类型
+      "class": "IN"             // 查询类
+    },
+    "answers": [                 // 应答记录
+      {
+        "name": "example.com",
+        "type": "A",
+        "class": "IN",
+        "ttl": 300,
+        "address": "93.184.216.34"  // 解析的IP
+      }
+    ],
+    "authorities": [],           // 权威记录
+    "additionals": []            // 附加记录
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "provider": "DeepSeek",
+  "model": "deepseek-chat",
+  "base_url": "https://api.deepseek.com"
+}

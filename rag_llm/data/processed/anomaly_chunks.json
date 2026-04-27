@@ -1,0 +1,45 @@
+[
+  {
+    "text": "test alert",
+    "metadata": {
+      "agg_type": "anomaly_test",
+      "created_at": "2026-04-23T12:00:00"
+    }
+  },
+  {
+    "text": "【DNS异常检测告警 - high_frequency_dns】\n告警数量: 4\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - 应用层协议:DNS\n\n  严重性: high\n  描述: 源IP 202.118.1.29 在监测期间发起 297 次DNS查询，超过阈值 50\n  源IP: 202.118.1.29\n  次数: 297\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 在监测期间发起 168 次DNS查询，超过阈值 50\n  源IP: 172.18.52.103\n  次数: 168\n\n  严重性: medium\n  描述: 源IP 192.168.31.115 在监测期间发起 55 次DNS查询，超过阈值 50\n  源IP: 192.168.31.115\n  次数: 55\n\n  严重性: medium\n  描述: 源IP 192.168.31.1 在监测期间发起 54 次DNS查询，超过阈值 50\n  源IP: 192.168.31.1\n  次数: 54\n",
+    "metadata": {
+      "agg_type": "anomaly_high_frequency_dns",
+      "attack_mapping": "T1071.004 - 应用层协议:DNS",
+      "source": "dns_anomaly_detector",
+      "created_at": "2026-04-27T19:14:14.201594",
+      "alert_count": 4,
+      "source_text": "【DNS异常检测告警 - high_frequency_dns】\n告警数量: 4\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - 应用层协议:DNS\n\n  严重性: high\n  描述: 源IP 202.118.1.29 在监测期间发起 297 次DNS查询，超过阈值 50\n  源IP: 202.118.1.29\n  次数: 297\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 在监测期间发起 168 次DNS查询，超过阈值 50\n  源IP: 172.18.52.103\n  次数: 168\n\n  严重性: medium\n  描述: 源IP 192.168.31.115 在监测期间发起 55 次DNS查询，超过阈值 50\n  源IP: 192.168.31.115\n  次数: 55\n\n  严重性: medium\n  描述: 源IP 192.168.31.1 在监测期间发起 54 次DNS查询，超过阈值 50\n  源IP: 192.168.31.1\n  次数: 54\n",
+      "source_type": "anomaly"
+    }
+  },
+  {
+    "text": "【DNS异常检测告警 - suspicious_domain】\n告警数量: 3\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - C2通信\n\n  严重性: high\n  描述: 可疑域名 assets.immersivetranslate.cn，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: assets.immersivetranslate.cn\n  原因: DGA特征子标签(immersivetranslate...)\n\n  严重性: high\n  描述: 可疑域名 ai.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: ai.immersivetranslate.com\n  原因: DGA特征子标签(immersivetranslate...)\n\n  严重性: high\n  描述: 可疑域名 config.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: config.immersivetranslate.com\n  原因: DGA特征子标签(immersivetranslate...)\n",
+    "metadata": {
+      "agg_type": "anomaly_suspicious_domain",
+      "attack_mapping": "T1071.004 - C2通信",
+      "source": "dns_anomaly_detector",
+      "created_at": "2026-04-27T19:14:14.201594",
+      "alert_count": 3,
+      "source_text": "【DNS异常检测告警 - suspicious_domain】\n告警数量: 3\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - C2通信\n\n  严重性: high\n  描述: 可疑域名 assets.immersivetranslate.cn，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: assets.immersivetranslate.cn\n  原因: DGA特征子标签(immersivetranslate...)\n\n  严重性: high\n  描述: 可疑域名 ai.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: ai.immersivetranslate.com\n  原因: DGA特征子标签(immersivetranslate...)\n\n  严重性: high\n  描述: 可疑域名 config.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)\n  源IP: 172.18.52.103\n  域名: config.immersivetranslate.com\n  原因: DGA特征子标签(immersivetranslate...)\n",
+      "source_type": "anomaly"
+    }
+  },
+  {
+    "text": "【DNS异常检测告警 - unknown_dns_server】\n告警数量: 2\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - 可疑DNS服务器\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 向非标准DNS服务器 202.118.1.29 发起 161 次查询\n  源IP: 172.18.52.103\n  次数: 161\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 向非标准DNS服务器 202.118.1.53 发起 7 次查询\n  源IP: 172.18.52.103\n  次数: 7\n",
+    "metadata": {
+      "agg_type": "anomaly_unknown_dns_server",
+      "attack_mapping": "T1071.004 - 可疑DNS服务器",
+      "source": "dns_anomaly_detector",
+      "created_at": "2026-04-27T19:14:14.201594",
+      "alert_count": 2,
+      "source_text": "【DNS异常检测告警 - unknown_dns_server】\n告警数量: 2\n检测时间: 2026-04-27T19:14:14.201594\nATT&CK映射: T1071.004 - 可疑DNS服务器\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 向非标准DNS服务器 202.118.1.29 发起 161 次查询\n  源IP: 172.18.52.103\n  次数: 161\n\n  严重性: medium\n  描述: 源IP 172.18.52.103 向非标准DNS服务器 202.118.1.53 发起 7 次查询\n  源IP: 172.18.52.103\n  次数: 7\n",
+      "source_type": "anomaly"
+    }
+  }
+]

@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# FAISS index files (large binary)
+*.faiss
+*.pkl
+
+# Log files
+*.log
+
+# Binary files
+dnsProbe
+dnsProbe.exe
+
+# Keys and certificates
+*.key
+*.crt
+jwt_secret.key
+
+# Docker
+daemon.json
+
+# Processed data
+data/processed/

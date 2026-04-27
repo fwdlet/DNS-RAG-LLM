@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DNS抓包服务端管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="layout">
+        <!-- 侧边导航栏 -->
+        <nav class="sidebar" id="sidebar" style="display: none;">
+            <h2 class="sidebar-title">管理中心</h2>
+            <ul class="nav-list" id="adminNav" style="display:none;">
+                <li id="nav-device" class="nav-item active" onclick="showSection('deviceSection', this)">设备管理</li>
+                <li id="nav-file" class="nav-item" onclick="showSection('fileQuerySection', this)">文件查询</li>
+                <li id="nav-log" class="nav-item" onclick="showSection('logQuerySection', this)">日志查询</li>
+                <li id="nav-user" class="nav-item" onclick="showSection('adminUserSection', this)">用户管理</li>
+            </ul>
+            <ul class="nav-list" id="userNav" style="display:none;">
+                <li id="nav-user-device" class="nav-item active" onclick="showSection('userDeviceSection', this)">我的设备</li>
+                <li id="nav-user-packet" class="nav-item" onclick="showSection('userPacketSection', this)">我的包</li>
+                <li id="nav-user-changepwd" class="nav-item" onclick="showUserUpdatePwd()">修改密码</li>
+            </ul>
+            <div style="margin-top: 24px; text-align: center;" id="userNavBtns">
+                <button id="logoutBtn" onclick="logout()" style="margin-top: 12px;">登出</button>
+            </div>
+
+        </nav>
+        <!-- 主内容 -->
+        <main class="main-container">
+            <div id="mainContainer" class="container">
+                <!-- 管理员界面 -->
+                <div id="deviceSection" class="section">
+                    <h3>设备管理</h3>
+                    <div class="device-cards">
+                        <div class="card">
+                            <h4>待批准设备</h4>
+                            <button onclick="fetchPendingDevice()">刷新</button>
+                            <div id="pendingDeviceList" class="device-list"></div>
+                        </div>
+                        <div class="card">
+                            <h4>已登记设备</h4>
+                            <button onclick="fetchApprovedDevice()">刷新</button>
+                            <div id="registeredDeviceList" class="device-list"></div>
+                        </div>
+                        <div class="card">
+                            <h4>在线设备</h4>
+                            <button onclick="fetchOnlineDevice()">刷新</button>
+                            <div id="onlineDeviceList" class="device-list"></div>
+                        </div>
+                    </div>
+                    <!-- JWT密钥 -->
+                    <div class="card">
+                        <h4>JWT密钥管理</h4>
+                        <button onclick="regenerateJWTSecret()">重新生成JWT密钥</button>
+                        <span id="jwtSecretMsg" class="msg"></span>
+                    </div>
+                </div>
+                <div id="fileQuerySection" class="section">
+                    <h3>文件查询</h3>
+                    <div class="card">
+                        <div class="form-grid">
+                            <label>设备ID：</label>
+                            <select id="queryDeviceID">
+                                <option value="">全部设备</option>
+                            </select>
+                            <label>起始时间：</label>
+                            <input id="queryStartTime" type="datetime-local">
+                            <label>结束时间：</label>
+                            <input id="queryEndTime" type="datetime-local">
+                        </div>
+                        <button onclick="adminFetchPacket()">查询文件</button>
+                        <div id="fileQueryResult" style="margin-top:10px;"></div>
+                    </div>
+                </div>
+                <div id="logQuerySection" class="section">
+                    <h3>日志查询</h3>
+                    <div class="card">
+                        <div class="form-grid">
+                            <label>设备ID：</label>
+                            <select id="logDeviceID">
+                                <option value="">全部设备</option>
+                            </select>
+                            <label>起始时间：</label>
+                            <input id="logStartTime" type="datetime-local">
+                            <label>结束时间：</label>
+                            <input id="logEndTime" type="datetime-local">
+                        </div>
+                        <button onclick="fetchDeviceLog()">查询日志</button>
+                        <div id="deviceLogResult" style="margin-top:10px;"></div>
+                    </div>
+                    <div class="card">
+                        <h4>用户登录日志</h4>
+                        <div>
+                            <select id="loginLogUsername">
+                                <option value="">请选择用户</option>
+                            </select>
+                            <button onclick="fetchUserLog()">查询</button>
+                        </div>
+                        <div id="userLoginLogList" style="margin-top:10px;">暂无数据</div>
+                    </div>
+                </div>
+                <div id="adminUserSection" class="section">
+                    <h3>用户管理</h3>
+                    <div class="card">
+                        <!-- 已批准用户展示 -->
+                        <h4>已批准用户</h4>
+                        <button onclick="fetchApprovedUser()">刷新</button>
+                        <div id="userList"></div>
+                    </div>
+                    <div class="card">
+                        <h4>待审核用户</h4>
+                        <button onclick="fetchPendingUser()">刷新</button>
+                        <div id="pendingUserList"></div>
+                    </div>
+                    <div class="card">
+                        <h4>在线用户</h4>
+                        <button onclick="fetchOnlineUserList()">刷新</button>
+                        <div id="onlineUserList">暂无数据</div>
+                    </div>
+                    <div style="margin-top:24px;text-align:right;">
+                        <button onclick="showAddUser()">添加用户</button>
+                        <button onclick="showAdminUpdatePwd()">修改用户密码</button>
+                    </div>
+                </div>
+                <!-- 管理员修改任意用户密码弹窗（浮动） -->
+                <div id="adminChangeUserPwdDialog" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <h3>修改用户密码</h3>
+                        <input id="changePwdUsername" type="text" placeholder="用户名" class="modal-input">
+                        <input id="changePwdNew" type="password" placeholder="新密码" class="modal-input">
+                        <div class="modal-actions">
+                            <button onclick="adminSubmitPwd()">提交</button>
+                            <button onclick="closeAdminUpdatePwd()">取消</button>
+                        </div>
+                        <span id="changeUserPwdMsg" class="msg"></span>
+                    </div>
+                </div>
+
+                <!-- 添加用户弹窗（浮动） -->
+                <div id="addUserDialog" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <h3>添加用户</h3>
+                        <input id="addUserUsername" type="text" placeholder="用户名" class="modal-input">
+                        <input id="addUserPassword" type="password" placeholder="密码" class="modal-input">
+                        <select id="addUserRole" class="modal-input">
+                            <option value="user">普通用户</option>
+                            <option value="admin">管理员</option>
+                        </select>
+                        <div class="modal-actions">
+                            <button onclick="submitAdd()">提交</button>
+                            <button onclick="closeAddUser()">取消</button>
+                        </div>
+                        <span id="addUserMsg" class="msg"></span>
+                    </div>
+                </div>
+
+                <!-- 普通用户界面 -->
+                <div id="userDeviceSection" class="section">
+                    <h3>我的设备</h3>
+                    <div class="card">
+                        <div id="userDeviceList"></div>
+                    </div>
+                    <div class="card">
+                        <h4 style="display:inline-block;">在线设备</h4>
+                        <button style="margin-left:8px;" onclick="userFetchOnlineDevice()">刷新</button>
+                        <div id="userOnlineDeviceList"></div>
+                    </div>
+                </div>
+                <!-- 配置下发弹窗（浮动） -->
+                <div id="userConfigDialog" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <h3>下发配置</h3>
+                        <div class="form-grid">
+                            <label for="userConfigDeviceID">设备ID：</label>
+                            <input id="userConfigDeviceID" type="text" readonly>
+                            <label for="userConfigHbTime">心跳间隔(秒)：</label>
+                            <input id="userConfigHbTime" type="number" value="30" min="1">
+                            <label for="userConfigReConTime">重连间隔(秒)：</label>
+                            <input id="userConfigReConTime" type="number" value="60" min="1">
+                            <label for="userConfigRsTime">重发间隔(秒)：</label>
+                            <input id="userConfigRsTime" type="number" value="60" min="1">
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <button onclick="userPushConfig()">确定</button>
+                            <button onclick="closeUserConfigDialog()">取消</button>
+                            <span id="userPushConfigMsg" class="msg"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 新增：普通用户包展示区 -->
+                <div id="userPacketSection" class="section" style="display:none;">
+                    <h3>我的包</h3>
+                    <div class="card">
+                        <div id="userPacketList"></div>
+                    </div>
+                </div>
+                <div id="userChangePwdDialog" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <h3>修改密码</h3>
+                        <input id="userNewPwd" type="password" placeholder="新密码" class="modal-input">
+                        <div class="modal-actions">
+                            <button onclick="userSubmitPwd()">提交</button>
+                            <button onclick="closeUserUpdatePwd()">取消</button>
+                        </div>
+                        <span id="userChangePwdMsg" class="msg"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 登录模块 -->
+            <div id="loginContainer" class="container" style="display:none;">
+                <h2 style="text-align:center;">登录</h2>
+                <div class="login-form">
+                    <input id="loginUser" type="text" placeholder="用户名">
+                    <input id="loginPwd" type="password" placeholder="密码">
+                    <button onclick="login()">登录</button>
+                    <button type="button" onclick="showRegisterUser()">注册</button>
+                    <span id="loginMsg" class="msg"></span>
+                </div>
+            </div>
+            <!-- 注册弹窗（浮动） -->
+            <div id="registerDialog" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <h3>用户注册</h3>
+                    <input id="registerUsername" type="text" placeholder="用户名" class="modal-input">
+                    <input id="registerPassword" type="password" placeholder="密码" class="modal-input">
+                    <div class="modal-actions">
+                        <button onclick="submitRegister()">提交注册</button>
+                        <button onclick="closeRegisterUser()">取消</button>
+                    </div>
+                    <span id="registerMsg" class="msg"></span>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="addUser.js"></script>
+    <script src="config.js"></script>
+    <script src="device.js"></script>
+    <script src="init.js"></script>
+    <script src="jwt.js"></script>
+    <script src="log.js"></script>
+    <script src="login.js"></script>
+    <script src="packet.js"></script>
+    <script src="password.js"></script>
+    <script src="section.js"></script>
+    <script src="selects.js"></script>
+    <script src="userMan.js"></script>
+</body>
+</html>

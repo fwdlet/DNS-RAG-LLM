@@ -1,0 +1,34 @@
+{
+  "dns_json": [
+    {
+      "source_path": "a.json"
+    },
+    {
+      "source_path": "c.json",
+      "agg_file": "agg_c_new.json",
+      "chunk_count": 5,
+      "indexed_at": "2026-04-27T18:19:24.357137"
+    },
+    {
+      "source_path": "file1.json",
+      "source_mtime": 1777286164.550061,
+      "chunk_count": 1
+    },
+    {
+      "source_path": "file2.json",
+      "source_mtime": 1777286176.8101614,
+      "chunk_count": 1
+    },
+    {
+      "source_path": "rebuild_test.json",
+      "source_mtime": 1777286153.9152892,
+      "chunk_count": 1
+    }
+  ],
+  "zeek_dns": [
+    {
+      "source_path": "all_zeek_dns",
+      "chunk_count": 4
+    }
+  ]
+}

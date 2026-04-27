@@ -1,0 +1,7 @@
+{
+  "host": "192.168.239.128",
+  "port": 3306,
+  "user": "pcl",
+  "password": "123456",
+  "database": "dns_server"
+}

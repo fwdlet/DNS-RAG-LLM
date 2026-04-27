@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: mysql:8
+    container_name: mysql8
+    environment:
+      MYSQL_ROOT_PASSWORD: 54my32sql10
+      MYSQL_DATABASE: dns_server
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./dns_server.sql:/docker-entrypoint-initdb.d/dns_server.sql
+    restart: always
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./jwt_secret.key:/app/jwt_secret.key
+      - ./config.yaml:/app/config.yaml
+      - ./server.crt:/app/server.crt
+      - ./server.key:/app/server.key
+      - ./front:/app/front
+    environment:
+      - TZ=Asia/Shanghai
+    restart: always
+
+volumes:
+  db_data:

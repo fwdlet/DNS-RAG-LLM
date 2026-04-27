@@ -1,0 +1,111 @@
+{
+  "id": "20260427_191424",
+  "timestamp": "2026-04-27T19:14:24.647979",
+  "source_type": "json_file",
+  "source_name": "mysql_export.json",
+  "thresholds": {
+    "freq_threshold": 50,
+    "nxdomain_threshold": 10
+  },
+  "status": "success",
+  "total_packets": 585,
+  "alert_count": 9,
+  "summary": {
+    "total_alerts": 9,
+    "by_type": {
+      "high_frequency_dns": 4,
+      "suspicious_domain": 3,
+      "unknown_dns_server": 2
+    },
+    "by_severity": {
+      "high": 4,
+      "medium": 5
+    }
+  },
+  "alerts": [
+    {
+      "alert_type": "high_frequency_dns",
+      "severity": "high",
+      "src_ip": "202.118.1.29",
+      "count": 297,
+      "description": "源IP 202.118.1.29 在监测期间发起 297 次DNS查询，超过阈值 50",
+      "attack_mapping": "T1071.004 - 应用层协议:DNS"
+    },
+    {
+      "alert_type": "high_frequency_dns",
+      "severity": "medium",
+      "src_ip": "172.18.52.103",
+      "count": 168,
+      "description": "源IP 172.18.52.103 在监测期间发起 168 次DNS查询，超过阈值 50",
+      "attack_mapping": "T1071.004 - 应用层协议:DNS"
+    },
+    {
+      "alert_type": "high_frequency_dns",
+      "severity": "medium",
+      "src_ip": "192.168.31.115",
+      "count": 55,
+      "description": "源IP 192.168.31.115 在监测期间发起 55 次DNS查询，超过阈值 50",
+      "attack_mapping": "T1071.004 - 应用层协议:DNS"
+    },
+    {
+      "alert_type": "high_frequency_dns",
+      "severity": "medium",
+      "src_ip": "192.168.31.1",
+      "count": 54,
+      "description": "源IP 192.168.31.1 在监测期间发起 54 次DNS查询，超过阈值 50",
+      "attack_mapping": "T1071.004 - 应用层协议:DNS"
+    },
+    {
+      "alert_type": "suspicious_domain",
+      "severity": "high",
+      "src_ip": "172.18.52.103",
+      "domain": "assets.immersivetranslate.cn",
+      "reasons": [
+        "DGA特征子标签(immersivetranslate...)"
+      ],
+      "description": "可疑域名 assets.immersivetranslate.cn，原因: DGA特征子标签(immersivetranslate...)",
+      "attack_mapping": "T1071.004 - C2通信"
+    },
+    {
+      "alert_type": "suspicious_domain",
+      "severity": "high",
+      "src_ip": "172.18.52.103",
+      "domain": "ai.immersivetranslate.com",
+      "reasons": [
+        "DGA特征子标签(immersivetranslate...)"
+      ],
+      "description": "可疑域名 ai.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)",
+      "attack_mapping": "T1071.004 - C2通信"
+    },
+    {
+      "alert_type": "suspicious_domain",
+      "severity": "high",
+      "src_ip": "172.18.52.103",
+      "domain": "config.immersivetranslate.com",
+      "reasons": [
+        "DGA特征子标签(immersivetranslate...)"
+      ],
+      "description": "可疑域名 config.immersivetranslate.com，原因: DGA特征子标签(immersivetranslate...)",
+      "attack_mapping": "T1071.004 - C2通信"
+    },
+    {
+      "alert_type": "unknown_dns_server",
+      "severity": "medium",
+      "src_ip": "172.18.52.103",
+      "dns_server": "202.118.1.29",
+      "count": 161,
+      "description": "源IP 172.18.52.103 向非标准DNS服务器 202.118.1.29 发起 161 次查询",
+      "attack_mapping": "T1071.004 - 可疑DNS服务器"
+    },
+    {
+      "alert_type": "unknown_dns_server",
+      "severity": "medium",
+      "src_ip": "172.18.52.103",
+      "dns_server": "202.118.1.53",
+      "count": 7,
+      "description": "源IP 172.18.52.103 向非标准DNS服务器 202.118.1.53 发起 7 次查询",
+      "attack_mapping": "T1071.004 - 可疑DNS服务器"
+    }
+  ],
+  "index_written": true
+}
