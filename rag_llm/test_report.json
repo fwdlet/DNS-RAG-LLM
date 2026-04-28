@@ -1,0 +1,84 @@
+{
+  "test_metadata": {
+    "timestamp": "2026-04-28T16:43:31.593736",
+    "test_environment": "模拟环境",
+    "system_name": "基于流量解析的DNS日志收集与异常检测系统"
+  },
+  "functional_test_results": {
+    "total": 5,
+    "passed": 5,
+    "pass_rate": "100.0%",
+    "details": [
+      {
+        "test_name": "流量解析与数据接入",
+        "expected": "字段完整、类型正确",
+        "actual": "JSON解析正常, 83条记录, 字段完整; Zeek TSV解析正常, 30条记录, 映射列完整",
+        "passed": true,
+        "conclusion": "通过"
+      },
+      {
+        "test_name": "数据聚合分析",
+        "expected": "聚合结果正确、键唯一",
+        "actual": "高频聚合: 10个IP, 键唯一; NXDOMAIN风暴聚合: 1个IP; 可疑域名聚合: 27条; 低TTL聚合: 5条; DNS隧道聚合: 2条",
+        "passed": true,
+        "conclusion": "通过"
+      },
+      {
+        "test_name": "异常检测规则",
+        "expected": "5种规则均触发, severity非空",
+        "actual": "nxdomain_storm: 1条告警; high_frequency_dns: 1条告警; unknown_dns_server: 1条告警; suspicious_domain: 39条告警; dns_tunnel: 2条告警; 共触发44条告警, 覆盖5/5种规则",
+        "passed": true,
+        "conclusion": "通过"
+      },
+      {
+        "test_name": "RAG知识库检索与LLM分析流程",
+        "expected": "流程无中断, 报告包含风险评估",
+        "actual": "Step1 异常检测: 32条告警; Step2 文本块转换: 5个chunk; Step3 FAISS构建: 5个向量, dim=768; Step4 语义检索: 返回3条证据; Step5 LLM分析: 报告生成成功, 包含风险评估",
+        "passed": true,
+        "conclusion": "通过"
+      },
+      {
+        "test_name": "异常-知识库桥接与历史管理",
+        "expected": "文本块匹配告警, 历史可查询",
+        "actual": "文本块转换: 5个chunk, 内容与告警匹配; 历史记录保存成功, ID=20260428_163934; 历史记录查询正常, 告警数=32; 历史记录删除正常",
+        "passed": true,
+        "conclusion": "通过"
+      }
+    ]
+  },
+  "performance_test_results": {
+    "total": 3,
+    "success": 3,
+    "details": [
+      {
+        "test_name": "数据聚合引擎",
+        "data_scale": "10000条",
+        "total_time": 1.771,
+        "speed": 5646.42,
+        "agg_results_count": 5,
+        "status": "success"
+      },
+      {
+        "test_name": "异常检测引擎",
+        "data_scale": "1000条",
+        "total_time": 0.0174,
+        "speed": 57523.99,
+        "alert_count": 1,
+        "status": "success"
+      },
+      {
+        "test_name": "向量检索链路",
+        "data_scale": "500个块",
+        "total_time": 234.3298,
+        "speed": 2.13,
+        "retrieved_count": 5,
+        "index_stats": {
+          "total_chunks": 500,
+          "dimension": 768
+        },
+        "status": "success"
+      }
+    ]
+  },
+  "summary": "功能测试通过率: 5/5 (100.0%); 性能测试: 3/3 成功"
+}
