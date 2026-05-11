@@ -6,9 +6,9 @@ from config import RAW_DNS_DIR, RAW_PCAP_DIR, RAW_ZEEK_DNS_DIR, PROCESSED_DIR
 
 def render():
     st.title("📊 数据管理")
-    st.markdown("管理DNS日志、PCAP聚合数据、Zeek DNS日志和向量知识库")
+    st.markdown("管理DNS日志、PCAP聚合数据、Zeek DNS日志和分析语料库")
 
-    tab1, tab2, tab3, tab4 = st.tabs(["DNS日志", "PCAP聚合数据", "Zeek DNS日志", "知识库管理"])
+    tab1, tab2, tab3, tab4 = st.tabs(["DNS日志", "PCAP聚合数据", "Zeek DNS日志", "语料库管理"])
 
     with tab1:
         _render_dns_tab()
@@ -201,7 +201,7 @@ def _render_zeek_tab():
 
 
 def _render_index_tab():
-    st.subheader("向量知识库管理")
+    st.subheader("分析语料库管理")
     pipeline = st.session_state.pipeline
 
     manifest = pipeline.get_manifest()
@@ -210,7 +210,7 @@ def _render_index_tab():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown("#### 构建知识库")
+        st.markdown("#### 构建语料库")
         build_mode = st.selectbox(
             "构建模式",
             ["增量追加（新数据追加到现有索引）", "完整重建（丢弃后重新构建）"],

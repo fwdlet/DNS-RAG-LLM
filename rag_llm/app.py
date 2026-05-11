@@ -204,7 +204,7 @@ st.sidebar.caption(f"API: {st.session_state.llm_base_url}")
 
 stats_by_source = st.session_state.pipeline.get_stats_by_source()
 total = sum(stats_by_source.values())
-st.sidebar.metric("知识库总块数", total)
+st.sidebar.metric("语料库总块数", total)
 st.sidebar.caption(f"DNS:{stats_by_source.get('dns_json',0)} PCAP:{stats_by_source.get('pcap_agg',0)} Zeek:{stats_by_source.get('zeek_dns',0)} Anomaly:{stats_by_source.get('anomaly',0)}")
 
 if page == "📊 数据管理":

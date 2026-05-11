@@ -37,7 +37,7 @@ def render():
     stats = pipeline.get_stats()
 
     if stats.get("total_chunks", 0) == 0:
-        st.warning("⚠️ 知识库为空，请先在「数据管理」页面构建向量索引")
+        st.warning("⚠️ 分析语料库为空，请先在「数据管理」页面构建向量索引")
         st.info("💡 路径：数据管理 → 选择数据来源 → 点击「🔨 构建向量索引」")
         return
 

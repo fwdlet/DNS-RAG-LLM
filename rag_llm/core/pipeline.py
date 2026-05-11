@@ -391,13 +391,13 @@ class RAGPipeline:
         if not self.retriever.faiss_indices:
             loaded = self.load_index()
             if not loaded:
-                return {"status": "error", "message": "向量索引未构建，请先构建知识库"}
+                return {"status": "error", "message": "向量索引未构建，请先构建分析语料库"}
         context, results = self.retriever.retrieve_context(question, top_k)
         if not context:
             return {
                 "status": "warning",
                 "message": "未检索到相关证据",
-                "answer": "知识库中未找到与该问题相关的证据数据，无法进行分析。",
+                "answer": "分析语料库中未找到与该问题相关的证据数据，无法进行分析。",
                 "evidence": [],
             }
         if stream:

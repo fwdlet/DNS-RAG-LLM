@@ -6,7 +6,7 @@ from config import RAW_DNS_DIR
 
 def render():
     st.title("🚨 异常检测")
-    st.markdown("DNS日志异常检测，检测结果自动写入RAG知识库")
+    st.markdown("DNS日志异常检测，检测结果自动追加至分析语料库")
 
     pipeline = st.session_state.pipeline
 
@@ -66,7 +66,7 @@ def _render_config_tab(pipeline):
     with col2:
         nxdomain_threshold = st.number_input("NXDOMAIN风暴阈值", value=10, min_value=1, key="nxdomain_threshold")
 
-    auto_bridge = st.checkbox("自动将检测结果写入RAG知识库", value=True, key="auto_bridge")
+    auto_bridge = st.checkbox("自动将检测结果追加至分析语料库", value=True, key="auto_bridge")
 
     if st.button("🔍 执行异常检测", key="run_detection", type="primary"):
         with st.spinner("正在执行异常检测..."):
@@ -153,7 +153,7 @@ def _render_results_tab():
 
     bridge_result = result.get("index_update", {})
     if bridge_result.get("status") == "success":
-        st.success(f"✅ 已将 {bridge_result.get('added', 0)} 个异常文本块写入RAG知识库")
+        st.success(f"✅ 已将 {bridge_result.get('added', 0)} 个异常文本块追加至分析语料库")
 
 
 def _render_history_tab():
@@ -184,7 +184,7 @@ def _render_history_tab():
         high = summary.get("by_severity", {}).get("high", 0)
         medium = summary.get("by_severity", {}).get("medium", 0)
         low = summary.get("by_severity", {}).get("low", 0)
-        written = "✅已入知识库" if entry.get("index_written") else "❌未入知识库"
+        written = "✅已入语料库" if entry.get("index_written") else "❌未入语料库"
         thresholds = entry.get("thresholds", {})
 
         cols = st.columns([0.5, 1, 1.5, 1, 1, 1, 0.5, 0.5])
@@ -212,7 +212,7 @@ def _render_history_tab():
             st.markdown(f"**数据来源**: {src}")
             st.markdown(f"**阈值**: freq={thresholds.get('freq_threshold', 'N/A')}, nxdomain={thresholds.get('nxdomain_threshold', 'N/A')}")
             st.markdown(f"**数据包数**: {entry.get('total_packets', 0)}")
-            st.markdown(f"**写入知识库**: {'是' if entry.get('index_written') else '否'}")
+            st.markdown(f"**写入语料库**: {'是' if entry.get('index_written') else '否'}")
 
             alerts = entry.get("alerts", [])
             if alerts:

@@ -7,8 +7,8 @@ comprehensive_test_suite.py
   1. 流量解析与数据接入功能测试
   2. 数据聚合分析功能测试
   3. 异常检测规则功能测试
-  4. RAG知识库检索与LLM分析流程测试
-  5. 异常-知识库桥接与历史管理功能测试
+  4. RAG语料库检索与LLM分析流程测试
+  5. 异常-语料库桥接与历史管理功能测试
 
 性能测试 (对应论文6.3节):
   1. 数据聚合处理性能测试 (10,000条)
@@ -582,12 +582,12 @@ def test_anomaly_detection_rules():
 
 def test_rag_llm_analysis_flow():
     """
-    功能测试 6.2.4: RAG知识库检索与LLM分析流程测试
+    功能测试 6.2.4: RAG语料库检索与LLM分析流程测试
     模拟完整流程: 告警→文本块转换→向量嵌入→FAISS索引构建→检索上下文→调用LLM。
     LLM调用使用mock，返回预定义的安全分析报告文本。
     检查流程无异常中断，返回报告非空且包含预期字段。
     """
-    test_name = "RAG知识库检索与LLM分析流程"
+    test_name = "RAG语料库检索与LLM分析流程"
     expected = "流程无中断, 报告包含风险评估"
     details = []
     passed = True
@@ -684,11 +684,11 @@ def test_rag_llm_analysis_flow():
 
 def test_bridge_and_history():
     """
-    功能测试 6.2.5: 异常-知识库桥接与历史管理功能测试
+    功能测试 6.2.5: 异常-语料库桥接与历史管理功能测试
     验证桥接层能否将告警对象正确转换为文本块，
     并将结果持久化到检测历史记录中。
     """
-    test_name = "异常-知识库桥接与历史管理"
+    test_name = "异常-语料库桥接与历史管理"
     expected = "文本块匹配告警, 历史可查询"
     details = []
     passed = True
